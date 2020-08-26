@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">OCR</string>
+    <string name="after_unload">After Unload</string>
+    <string name="after_load">After Load</string>
+    <string name="pre_load">Pre Load</string>
+    <string name="report">Report</string>
+    <string name="vehicle_number">Vehicle #</string>
+    <string name="text_do">DO #</string>
+    <string name="home">Home</string>
+    <string name="check_tracking">Check Tracking</string>
+    <string name="tracking_status">Tracking Status</string>
+    <string name="last_tracking_time">Last Tracking Time</string>
+    <string name="location">Location</string>
+    <string name="save">Save</string>
+    <string name="restart">Restart</string>
+    <string name="manual">Manual</string>
+    <string name="next">Next</string>
+    <string name="vehicle">Vehicle</string>
+    <string name="net_weight">Net Weight</string>
+    <string name="invoice_no">Invoice #</string>
+    <string name="customer">Customer</string>
+    <string name="text_lr">LR #</string>
+    <string name="waybill">Form-D/Waybill</string>
+    <string name="status">Status</string>
+    <string name="datetime">Date &amp; Time</string>
+    <string name="print">Print</string>
+
+    <string-array name="material">
+        <item>Select Material</item>
+    </string-array>
+
+    <string-array name="source">
+        <item>Select Source</item>
+    </string-array>
+
+    <string-array name="ship_to_party">
+        <item>Select ship to party</item>
+    </string-array>
+</resources>
