@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ipssi.ocr.databinding.ActivityMainBinding;
+import com.ipssi.ocr.ocrUI.OcrCaptureActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, PreLoad.class));
                 break;
             case R.id.btn_after_load:
-                startActivity(new Intent(this, ManualEntryActivity.class));
+                startActivity(new Intent(this, AfterLoadActivity.class));
                 break;
             case R.id.btn_after_unload:
                 startActivity(new Intent(this, AfterUnloadActivity.class));
