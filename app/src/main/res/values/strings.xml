@@ -24,6 +24,10 @@
     <string name="status">Status</string>
     <string name="datetime">Date &amp; Time</string>
     <string name="print">Print</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="avatar">Company Logo</string>
 
     <string-array name="material">
         <item>Select Material</item>
