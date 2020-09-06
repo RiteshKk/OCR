@@ -25,7 +25,8 @@ import android.util.SparseArray;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.Line;
 import com.google.android.gms.vision.text.TextBlock;
-import com.ipssi.ocr.MainActivity;
+import com.ipssi.ocr.C;
+import com.ipssi.ocr.ManualEntryActivity;
 import com.ipssi.ocr.camera.GraphicOverlay;
 import com.ipssi.ocr.ocrparser.Document;
 import com.ipssi.ocr.ocrparser.MyLine;
@@ -298,7 +299,8 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             if(OcrHelper.process(currLine, allLines, j, valReader)){
                 OCRUtility.appendLog("OcrDetectorProcessor::","FORM IS COMPLETE ..... STOP PROCESSING.....");
                 release();
-                Intent intent = new Intent(context, ShowOcrDataActivity.class);
+                Intent intent = new Intent(context, ManualEntryActivity.class);
+                intent.putExtra(C.IsScanned,true);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

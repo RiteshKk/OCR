@@ -14,11 +14,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class OcrHelper {
     public static ArrayList<Document> configList = null;
-    static ArrayList<KeyToMatch> allDocumentsKeyToMatch = new ArrayList<KeyToMatch>();
+    static ArrayList<KeyToMatch> allDocumentsKeyToMatch = new ArrayList<>();
     private static String previousLine;
     private static Document currDocument;
     private static String configFilename = "D:\\config.json";
@@ -29,7 +30,7 @@ public class OcrHelper {
     }
 
     public static String getFormValues() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         if (currDocument != null) {
             for (FormField field : currDocument.getFormFields()) {
 
@@ -142,7 +143,7 @@ public class OcrHelper {
             is.read(buffer);
             is.close();
 
-            jsonString = new String(buffer, "UTF-8");
+            jsonString = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -158,7 +159,9 @@ public class OcrHelper {
      * @return
      */
 
-    private static MyLine g_currLine; public static MyLine g_prevLine; private static MyLine g_nextLine;
+    private static MyLine g_currLine;
+    public static MyLine g_prevLine;
+    private static MyLine g_nextLine;
 
     public static boolean process(MyLine currLine, ArrayList<MyLine> allLines, int currIndex, NewValReader valReader) {
 

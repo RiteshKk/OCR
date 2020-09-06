@@ -1,5 +1,6 @@
 package com.ipssi.ocr;
 
-interface C {
+public interface C {
     String IsLoggedIn = "isLoggedIn";
+    String IsScanned = "isScanned";
 }

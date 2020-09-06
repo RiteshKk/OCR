@@ -43,7 +43,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.text.TextRecognizer;
-import com.ipssi.ocr.MainActivity;
 import com.ipssi.ocr.R;
 import com.ipssi.ocr.camera.CameraSource;
 import com.ipssi.ocr.camera.CameraSourcePreview;
@@ -76,7 +75,6 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private CameraSource cameraSource;
     private CameraSourcePreview preview;
     private GraphicOverlay<OcrFormGraphic> graphicOverlay;
-    private boolean useFlash;
     // Helper objects for detecting taps and pinches.
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
@@ -97,13 +95,14 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         setContentView(R.layout.ocr_capture);
 
         Button showValues = (Button) findViewById(R.id._button);
+        showValues.setVisibility(View.INVISIBLE);
         showValues.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
 //                cameraSource.release();
-                Intent intent = new Intent(OcrCaptureActivity.this, ShowOcrDataActivity.class);
+//                Intent intent = new Intent(OcrCaptureActivity.this, ShowOcrDataActivity.class);
 //                    intent.putExtras(sendBundle);
-                startActivity(intent);
+//                startActivity(intent);
             }
         });
 
@@ -121,11 +120,9 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         });*/
 
         preview = (CameraSourcePreview) findViewById(R.id.preview);
-        graphicOverlay = (GraphicOverlay<OcrFormGraphic>) findViewById(R.id.graphicOverlay);
+        graphicOverlay = findViewById(R.id.graphicOverlay);
 
-        // Set good defaults for capturing text.
-        boolean autoFocus = true;
-        useFlash = false;
+        boolean useFlash = false;
         Bundle extras = getIntent().getExtras();
         if (extras != null)
             useFlash = (1==extras.getInt("flash"));
@@ -135,7 +132,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         // permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource(autoFocus, useFlash);
+            createCameraSource(true, useFlash);
         } else {
             requestCameraPermission();
         }
@@ -170,8 +167,6 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
     private void requestStoragePermission() {
         Log.w(TAG, "WRITE_EXTERNAL_STORAGE permission is not granted. Requesting permission");
-
-        final String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -292,7 +287,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         cameraSource =
                 new CameraSource.Builder(getApplicationContext(), textRecognizer)
                         .setFacing(CameraSource.CAMERA_FACING_BACK)
-//                        .setRequestedPreviewSize(1280, 1024)
+                        .setRequestedPreviewSize(1280, 1024)
+                        .setRequestedPreviewSize(1024, 768)
                         .setRequestedPreviewSize(1024, 768)
                         .setRequestedFps(4.0f)
                         .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)

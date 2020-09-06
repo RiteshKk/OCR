@@ -1,4 +1,4 @@
-package com.ipssi.ocr;
+package com.ipssi.ocr.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.ViewHolder> {
+import com.ipssi.ocr.R;
+
+public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.ViewHolder> {
 
     @NonNull
     @Override
@@ -24,7 +26,7 @@ class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.ViewHolde
 
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

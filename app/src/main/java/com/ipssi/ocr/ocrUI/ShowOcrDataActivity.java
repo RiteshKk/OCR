@@ -28,7 +28,7 @@ public class ShowOcrDataActivity extends AppCompatActivity {
 
                 // Document doc= OcrHelper.getCurrDocument();
 //                String text = OcrHelper.getFormValues();
-                EditText edtText = (EditText) findViewById(R.id.editTextTextMultiLine);
+                EditText edtText = findViewById(R.id.editTextTextMultiLine);
                 edtText.setText(text);
 
                 FloatingActionButton fab = findViewById(R.id.fab);

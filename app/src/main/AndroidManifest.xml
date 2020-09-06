@@ -9,15 +9,20 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name="com.ipssi.OcrApp"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/intelli"
         android:label="OcrReaderApp"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -29,8 +34,9 @@
         <activity
             android:name=".ManualEntryActivity"
             android:label="@string/manual" />
-        <activity android:name=".AfterLoadActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".AfterLoadActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".PreLoadDetails"
             android:label="@string/tracking_status" />
@@ -50,7 +56,7 @@
         <activity
             android:name=".ocrUI.ShowOcrDataActivity"
             android:label="@string/title_activity_show_ocr_data"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.gms.version"
