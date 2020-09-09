@@ -24,12 +24,21 @@ public class AfterUnloadActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_home) {
-            Intent home = new Intent(this, MainActivity.class);
-            home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(home);
-        } else {
-            finish();
+        switch (item.getItemId()) {
+            case R.id.menu_home:
+                Intent home = new Intent(this, MainActivity.class);
+                home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(home);
+                break;
+            case R.id.menu_logout:
+                getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit().clear().apply();
+                Intent login = new Intent(this, LoginActivity.class);
+                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(login);
+                break;
+            default:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

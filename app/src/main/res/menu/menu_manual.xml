@@ -15,4 +15,10 @@
         android:title="@string/print"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/menu_logout"
+        android:orderInCategory="1"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+
 </menu>
