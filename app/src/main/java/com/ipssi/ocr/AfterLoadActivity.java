@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 
 import com.ipssi.ocr.ocrUI.OcrCaptureActivity;
 
@@ -25,7 +26,9 @@ public class AfterLoadActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(this, ManualEntryActivity.class));
                 break;
             case R.id.btn_ocr:
-                startActivity(new Intent(this, OcrCaptureActivity.class));
+                Intent intent = new Intent(this, OcrCaptureActivity.class);
+                intent.putExtra("switch",((Switch) findViewById(R.id.hash_switch)).isChecked());
+                startActivity(intent);
                 break;
 
         }

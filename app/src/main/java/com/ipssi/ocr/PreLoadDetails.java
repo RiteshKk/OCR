@@ -5,12 +5,16 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.ipssi.ocr.databinding.ActivityPreLoadBinding;
 import com.ipssi.ocr.databinding.ActivityPreLoadDetailsBinding;
+import com.ipssi.ocr.model.FormData;
+import com.ipssi.ocr.ocrparser.OCRUtility;
+import com.ipssi.ocr.ocrparser.OcrHelper;
 
 public class PreLoadDetails extends AppCompatActivity {
 
@@ -19,10 +23,15 @@ public class PreLoadDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ActivityPreLoadDetailsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_pre_load_details);
+
+        binding.valueVehicle.setText(getIntent().getStringExtra("veh"));
+        binding.valueTrackingTime.setText(getIntent().getStringExtra("gpstime"));
+        binding.valueDo.setText(getIntent().getStringExtra("do"));
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //put your data saving logic here
+                //No need to save data
                 finish();
             }
         });

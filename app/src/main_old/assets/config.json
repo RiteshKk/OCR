@@ -1,0 +1,408 @@
+{
+  "documents": [
+    {
+      "name": "CCL",
+      "mustKeys": [
+        {
+          "first": "Central Coalfields Ltd",
+          "second": false
+        }
+      ],
+      "formFields": [
+        {
+          "fieldconfig": {
+            "formFieldName": "invoice_no",
+            "type": "-1",
+            "toMatch": "Invoice No",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 16,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": true,
+            "fieldRect": {
+              "left": 390,
+              "top": 90,
+              "right": 960,
+              "bottom": 120
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "vehicle_no",
+            "type": "-1",
+            "toMatch": "Veh No",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 10,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": true,
+            "fieldRect": {
+              "left": 60,
+              "top": 1050,
+              "right": 660,
+              "bottom": 1080
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "date_time",
+            "type": "100",
+            "toMatch": "Time Out",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9:/ ]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": -1,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 590,
+              "top": 1050,
+              "right": 760,
+              "bottom": 1080
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "customer",
+            "type": "100",
+            "toMatch": "Name",
+            "upperKey": "Shipped to",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9 ]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 0,
+            "readUptoLength": -1,
+            "validateLength": -1,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": true,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : true,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 390,
+              "top": 200,
+              "right": 860,
+              "bottom": 250
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "so_no",
+            "type": "1",
+            "toMatch": "SO No",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^0-9]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 8,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 90,
+              "top": 900,
+              "right": 760,
+              "bottom": 950
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "qty",
+            "type": "0",
+            "toMatch": "Quantity",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9.]",
+            "matchExpr": "[0-9.]+",
+            "readPattern": 1,
+            "readDirection": 0,
+            "readUptoLength": 6,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 2,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 450,
+              "top": 600,
+              "right": 760,
+              "bottom": 640
+            }
+          },
+          "sortedValues": []
+        }
+      ]
+    },
+    {
+      "name": "BCCL",
+      "mustKeys": [
+        {
+          "first": "Bharat coking coal limited",
+          "second": false
+        },
+        {
+          "first": "Tax Invoice",
+          "second": false
+        },
+        {
+          "first": "coking coal limited",
+          "second": false
+        }
+      ],
+      "formFields": [
+        {
+          "fieldconfig": {
+            "formFieldName": "invoice_no",
+            "type": "100",
+            "toMatch": "GST Bill",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9 /]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 13,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": true,
+            "fieldRect": {
+              "left": 160,
+              "top": 200,
+              "right": 200,
+              "bottom": 250
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "customer",
+            "type": "100",
+            "toMatch": "Name",
+            "upperKey": "Supply",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9 ]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 0,
+            "readUptoLength": -1,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": true,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 500,
+              "top": 200,
+              "right": 100,
+              "bottom": 250
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "qty",
+            "type": "0",
+            "toMatch": "Lifting Qty",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9.]",
+            "matchExpr": "[0-9.]+",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 0,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "fieldRect": {
+              "left": 160,
+              "top": 500,
+              "right": 200,
+              "bottom": 550
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "do_no",
+            "type": "2",
+            "toMatch": "DO No",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 11,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 1,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 660,
+              "top": 900,
+              "right": 100,
+              "bottom": 950
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "date_out",
+            "type": "1",
+            "toMatch": "Date Out",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^0-9]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 8,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 2,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 230,
+              "top": 1000,
+              "right": 100,
+              "bottom": 1050
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "time_out",
+            "type": "1",
+            "toMatch": "Time Out",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^0-9]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 6,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 2,
+            "valueIgnoreCase": false,
+            "fieldRect": {
+              "left": 600,
+              "top": 1000,
+              "right": 100,
+              "bottom": 1050
+            }
+          },
+          "sortedValues": []
+        },
+        {
+          "fieldconfig": {
+            "formFieldName": "vehicle_no",
+            "type": "-1",
+            "toMatch": "Truck No",
+            "upperKey": "",
+            "belowKey": "",
+            "replaceExpr": "[^a-zA-Z0-9]",
+            "matchExpr": "",
+            "readPattern": 2,
+            "readDirection": 1,
+            "readUptoLength": 10,
+            "valuesReadCount": 0,
+            "bestDiffThreshold": 5,
+            "readThreshold": 10,
+            "ignoreComplete": false,
+            "leftLookUnbounded": false,
+            "rightLookUnbounded" : false,
+            "maxLinesToLook" : 2,
+            "valueIgnoreCase": true,
+            "fieldRect": {
+              "left": 160,
+              "top": 900,
+              "right": 200,
+              "bottom": 950
+            }
+          },
+          "sortedValues": []
+        }
+      ]
+    }
+  ]
+}

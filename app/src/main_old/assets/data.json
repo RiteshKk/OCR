@@ -1,0 +1,64 @@
+{
+  "documents": [
+    {
+      "id": "1",
+      "name": "CCL",
+      "formFields": [
+        {
+          "formFieldName": "invoice_no",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "vehicle_no",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "date_time",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "customer",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "so_no",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "qty",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "date_out",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "time_out",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        },
+        {
+          "formFieldName": "lr_no",
+          "bestPossibleValue": "",
+          "secondBestPossibleValue": "",
+          "userEditedValue": ""
+        }
+      ]
+    }
+  ]
+}

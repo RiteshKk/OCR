@@ -9,28 +9,40 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 import com.ipssi.OcrApp;
 import com.ipssi.ocr.adapter.CustomSpinnerAdapter;
 import com.ipssi.ocr.databinding.ActivityManualEntryBinding;
 import com.ipssi.ocr.model.FormData;
+import com.ipssi.ocr.ocrparser.Document;
+import com.ipssi.ocr.ocrparser.FormField;
 import com.ipssi.ocr.ocrparser.OCRUtility;
 import com.ipssi.ocr.ocrparser.OcrHelper;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ManualEntryActivity extends AppCompatActivity {
+
 
     private ActivityManualEntryBinding binding;
     private CustomSpinnerAdapter materialAdapter;
@@ -56,8 +68,8 @@ public class ManualEntryActivity extends AppCompatActivity {
 
     private void setupViews() {
         materialAdapter = new CustomSpinnerAdapter(ManualEntryActivity.this,
-            android.R.layout.simple_spinner_dropdown_item,
-            materialList);
+                android.R.layout.simple_spinner_dropdown_item,
+                materialList);
         binding.spinnerMaterial.setAdapter(materialAdapter);
     }
 
@@ -90,6 +102,7 @@ public class ManualEntryActivity extends AppCompatActivity {
         return model;
     }
 
+
     private void setViews(FormData data) {
         Objects.requireNonNull(binding.layoutCustomer.getEditText()).setText(data.getCustomer());
         binding.layoutCustomer.getEditText().setFocusableInTouchMode(false);
@@ -112,37 +125,35 @@ public class ManualEntryActivity extends AppCompatActivity {
         binding.layoutLr.getEditText().setFocusableInTouchMode(false);
 
 
-
     }
 
     public void fetchMaterialData() {
         RequestQueue requestQueue = OcrApp.instance.getRequestQueue();
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-            "http://203.197.197.16:9950/LocTracker/TempleDashboardData.jsp?action_p=global_json",
-            null,
-            new Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    JSONArray reasonList = response.optJSONArray("ReasonList");
-                    for (int i = 0; i < reasonList.length(); i++) {
-                        JSONObject object = reasonList.optJSONObject(i);
-                        materialList.add(new Pair<>(object.optInt("id", 0), object.optString("name")));
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setupViews();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Utills.MAT_URL,
+                null,
+                new Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray reasonList = response.optJSONArray("ReasonList");
+                        for (int i = 0; i < reasonList.length(); i++) {
+                            JSONObject object = reasonList.optJSONObject(i);
+                            materialList.add(new Pair<>(object.optInt("id", 0), object.optString("name")));
                         }
-                    });
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setupViews();
+                            }
+                        });
 
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("error check", error.getMessage() + "");
-                }
-            });
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error check", error.getMessage() + "");
+                    }
+                });
         requestQueue.add(request);
     }
 
@@ -175,4 +186,143 @@ public class ManualEntryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void saveData(View view) {
+
+
+        JSONObject dataObj = new JSONObject();
+
+        try {
+            Document currDocument = OcrHelper.getCurrDocument();
+
+            JSONArray docArry = new JSONArray();
+            JSONObject docObj = new JSONObject();
+            JSONArray valueArr = new JSONArray();
+            if (currDocument != null) {
+                docObj.put("id", "CCL".equals(currDocument.getName()) ? 1 : 2);
+                docObj.put("name", currDocument.getName());
+
+                for (FormField field : currDocument.getFormFields()) {
+                    JSONObject data = new JSONObject();
+                    data.put("formFieldName", field.getFormconfig().getFormFieldName());
+                    data.put("bestPossibleValue", field.getValueBestPossible());
+                    data.put("secondBestPossibleValue", field.getValueSecondBestPossible());
+                    String userValue = getUserEditedValue(field.getFormconfig().getFormFieldName(), field.getValueBestPossible());
+                    data.put("userEditedValue", userValue);
+                    valueArr.put(data);
+                }
+                docObj.put("formFields", valueArr);
+                docArry.put(docObj);
+
+                dataObj.put("configs", docArry);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//Build Request
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Utills.DATA_SAVE_URL, dataObj, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(@NonNull JSONObject resp) {
+                try {
+                    JSONArray response =null;
+                    try{
+                     response = resp.getJSONArray("result");
+                    } catch (JSONException e) {
+
+                        if(resp.getInt("status")<0){
+                            //logout
+                            Toast.makeText(getApplicationContext(), "Authorization Token Expired. Login Again.",Toast.LENGTH_LONG).show();
+                            getSharedPreferences(ManualEntryActivity.this.getString(R.string.app_name),MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn,false).apply();
+                            startActivity(new Intent(ManualEntryActivity.this, LoginActivity.class));
+                        }
+                    }
+                    if(response!=null)
+                    Log.e("Data Saved", String.valueOf(resp));
+                    dataSaved(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                String token = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).getString(C.token, null);
+                params.put("Authorization", "Bearer "+token);
+                return params;
+            }
+        };
+//10000 is the time in milliseconds adn is equal to 10 sec
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        Volley.newRequestQueue(this).add(request);
+
+
+    }
+
+    private void dataSaved(JSONArray response) {
+        OcrHelper.resetObjects();
+        Toast.makeText(getApplicationContext(), "After Load Data Saved.",Toast.LENGTH_LONG).show();
+
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    private String getUserEditedValue(String formFieldName, String value) {
+        String uservalue = "";
+        if ("invoice_no".equalsIgnoreCase(formFieldName)) {
+            uservalue = binding.layoutInvoice.getEditText().getText().toString();
+            return value.equals(uservalue) ? null : uservalue;
+        } else if ("vehicle_no".equalsIgnoreCase(formFieldName)) {
+            uservalue = binding.layoutVehicle.getEditText().getText().toString();
+            return value.equals(uservalue) ? null : uservalue;
+
+        } else if ("date_time".equalsIgnoreCase(formFieldName)) {
+            return null;
+        } else if ("customer".equalsIgnoreCase(formFieldName)) {
+            uservalue = binding.layoutCustomer.getEditText().getText().toString();
+            return value.equals(uservalue) ? null : uservalue;
+
+        } else if ("so_no".equalsIgnoreCase(formFieldName)) {
+            return null;
+        } else if ("qty".equalsIgnoreCase(formFieldName)) {
+            uservalue = binding.layoutWeight.getEditText().getText().toString();
+            return value.equals(uservalue) ? null : uservalue;
+
+        } else if ("date_out".equalsIgnoreCase(formFieldName)) {
+            return null;
+        } else if ("time_out".equalsIgnoreCase(formFieldName)) {
+            return null;
+        } else if ("do_no".equalsIgnoreCase(formFieldName)) {
+            uservalue = binding.layoutDoRr.getEditText().getText().toString();
+            return value.equals(uservalue) ? null : uservalue;
+        } else if ("lr_no".equalsIgnoreCase(formFieldName)) {
+            uservalue = binding.layoutLr.getEditText().getText().toString();
+            return value.equals(uservalue) ? null : uservalue;
+        } else if ("eway_bill".equalsIgnoreCase(formFieldName)) {
+            uservalue = binding.layoutWaybill.getEditText().getText().toString();
+            return value.equals(uservalue) ? null : uservalue;
+        } else
+            return null;
+    }
+ /*   String cust=binding.layoutCustomer.getEditText().getText().toString();
+    String invo=binding.layoutInvoice.getEditText().getText().toString();
+    String dono=binding.layoutDoRr.getEditText().getText().toString();
+    String lr=binding.layoutLr.getEditText().getText().toString();
+    String veh=binding.layoutVehicle.getEditText().getText().toString();
+    String ewayBill=binding.layoutWaybill.getEditText().getText().toString();
+    String qty=binding.layoutWeight.getEditText().getText().toString();*/
 }

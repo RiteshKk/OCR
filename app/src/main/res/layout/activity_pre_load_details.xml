@@ -115,7 +115,7 @@
             android:drawableEnd="@drawable/arrow"
             android:drawableRight="@drawable/arrow"
             android:paddingHorizontal="@dimen/dp_20"
-            android:text="@string/save"
+            android:text="@string/confirm"
             android:textColor="@android:color/white"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
