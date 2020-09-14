@@ -16,8 +16,9 @@ public class PreLoad extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ActivityPreLoadBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_pre_load);
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

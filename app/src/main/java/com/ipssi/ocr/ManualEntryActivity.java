@@ -40,6 +40,7 @@ public class ManualEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manual_entry);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getIntent().getBooleanExtra(C.IsScanned, false)) {
@@ -112,7 +113,6 @@ public class ManualEntryActivity extends AppCompatActivity {
         binding.layoutLr.getEditText().setFocusableInTouchMode(false);
 
 
-
     }
 
     public void fetchMaterialData() {
@@ -171,7 +171,6 @@ public class ManualEntryActivity extends AppCompatActivity {
                 break;
             default:
                 finish();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

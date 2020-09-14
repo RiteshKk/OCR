@@ -6,17 +6,26 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         tools:context=".ManualEntryActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorGreen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,20 +35,25 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_vehicle"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:hint="@string/vehicle">
+                    android:hint="@string/vehicle"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:theme="@style/TextLabel">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
 
 
                 <Spinner
                     android:id="@+id/spinner_material"
+                    android:theme="@style/AppTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
@@ -47,15 +61,17 @@
                     android:paddingVertical="15dp" />
 
                 <Spinner
-                android:id="@+id/spinner_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
-                android:entries="@array/source"
-                android:paddingVertical="15dp" />
+                    android:id="@+id/spinner_source"
+                    android:theme="@style/AppTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:entries="@array/source"
+                    android:paddingVertical="15dp" />
 
                 <Spinner
                     android:id="@+id/spinner_ship_to_party"
+                    android:theme="@style/AppTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
@@ -64,97 +80,130 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_weight"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:hint="@string/net_weight">
+                    android:hint="@string/net_weight"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:theme="@style/TextLabel">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_invoice"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:hint="@string/invoice_no">
+                    android:hint="@string/invoice_no"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:theme="@style/TextLabel">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_do_rr"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:hint="@string/text_do">
+                    android:hint="@string/text_do"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:theme="@style/TextLabel">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_customer"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:hint="@string/customer">
+                    android:hint="@string/customer"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:theme="@style/TextLabel">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_lr"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:hint="@string/text_lr">
+                    android:hint="@string/text_lr"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:theme="@style/TextLabel">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_waybill"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:hint="@string/waybill">
+                    android:hint="@string/waybill"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:theme="@style/TextLabel">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
         </ScrollView>
 
-        <Button
+        <android.support.v7.widget.CardView
             android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:drawableEnd="@drawable/arrow"
-            android:paddingHorizontal="@dimen/dp_20"
-            android:text="@string/save"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:layout_marginHorizontal="@dimen/dp_40"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableEnd="@drawable/arrow"
+                android:paddingHorizontal="@dimen/dp_20"
+                android:text="@string/save"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size" />
+        </android.support.v7.widget.CardView>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

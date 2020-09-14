@@ -25,27 +25,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity android:name=".AfterUnloadActivity" />
-        <activity
-            android:name=".Reports"
-            android:label="@string/report" />
-        <activity
-            android:name=".ManualEntryActivity"
-            android:label="@string/manual" />
-        <activity
-            android:name=".AfterLoadActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".PreLoadDetails"
-            android:label="@string/tracking_status" />
-        <activity
-            android:name=".PreLoad"
-            android:label="@string/check_tracking" />
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,9 +34,37 @@
         </activity>
 
         <activity
+            android:name=".AfterUnloadActivity"
+            android:label="@string/after_unload"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Reports"
+            android:label="@string/report"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".ManualEntryActivity"
+            android:label="@string/manual"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".AfterLoadActivity"
+            android:label=""
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".PreLoadDetails"
+            android:label="@string/tracking_status"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".PreLoad"
+            android:label="@string/check_tracking"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <!--<activity
             android:name=".ocrUI.ShowOcrDataActivity"
             android:label="@string/title_activity_show_ocr_data"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
 
         <meta-data
             android:name="com.google.android.gms.version"

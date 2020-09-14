@@ -3,4 +3,6 @@
     <dimen name="dp_20">20dp</dimen>
     <dimen name="dp_40">40dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="button_text_size">18sp</dimen>
+    <dimen name="dp_30">30dp</dimen>
 </resources>

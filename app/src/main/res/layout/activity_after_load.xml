@@ -4,48 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/dp_40"
+    android:background="@drawable/background"
     tools:context=".AfterLoadActivity">
 
-    <Button
-        android:id="@+id/btn_manual"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_bg"
-        android:textColor="@android:color/white"
-        android:text="@string/manual"
-        app:layout_constraintBottom_toTopOf="@+id/hash_text"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/hash_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hash"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_ocr"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        app:layout_constraintVertical_bias="0.8"
+        android:textSize="28sp"
+        android:textColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/hash_switch"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintVertical_bias="0.8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_ocr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <android.support.v7.widget.CardView
         android:id="@+id/btn_ocr"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_bg"
-        android:textColor="@android:color/white"
-        android:text="@string/ocr"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="5dp"
+        app:contentPadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hash_text" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="110dp"
+                android:src="@drawable/ocrr" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/ocr"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/btn_manual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="5dp"
+        app:contentPadding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_ocr"
+        app:layout_constraintVertical_bias="0.2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="110dp"
+                android:src="@drawable/manuall" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/manual"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>
