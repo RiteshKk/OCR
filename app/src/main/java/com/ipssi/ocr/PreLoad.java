@@ -131,7 +131,7 @@ String url=Utills.GPS_DATA_URL+dataObj.getString("veh");
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-            Volley.newRequestQueue(this).add(request);
+            requestQueue.add(request);
 
 
 

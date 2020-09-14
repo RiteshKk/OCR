@@ -86,4 +86,5 @@
     <string name="ocr">Ocr</string>
     <string name="logout">Logout</string>
     <string name="my_dashboard">My Dashboard</string>
+    <string name="hash">Hash</string>
 </resources>

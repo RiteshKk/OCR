@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.btnAfterLoad.setOnClickListener(this);
         binding.btnAfterUnload.setOnClickListener(this);
         binding.btnReport.setOnClickListener(this);
-        binding.btnLogout.setOnClickListener(this);
+//        binding.btnLogout.setOnClickListener(this);
 
 
     }
@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_report:
                 startActivity(new Intent(this, Reports.class));
                 break;
-            case R.id.btn_logout:
+            /*case R.id.btn_logout:
                 getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit().putString(C.token, null).apply();
                 getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, false).apply();
                 startActivity(new Intent(this, LoginActivity.class));
-                break;
+                break;*/
         }
 
     }
