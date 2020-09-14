@@ -19,6 +19,9 @@ public class FormField {
 	public void addValue(String value){
 		if (fieldconfig.getReadUptoLength()>0)
 		value=value.trim().substring(0,fieldconfig.getReadUptoLength());
+		else if (value.length()<fieldconfig.getReadUptoLength()){
+			return;
+		}
 		 int strCount;
 		 boolean entryFound=false;
 		for (Entry<String, Integer> stored : sortedValues) {

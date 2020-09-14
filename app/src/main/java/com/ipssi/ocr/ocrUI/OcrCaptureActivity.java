@@ -125,7 +125,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         boolean useFlash = false;
         Bundle extras = getIntent().getExtras();
         if (extras != null)
-            useFlash = (1==extras.getInt("flash"));
+            useFlash = extras.getBoolean("switch",false);
 
 
         // Check for the camera permission before accessing the camera.  If the

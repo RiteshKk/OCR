@@ -3,15 +3,13 @@ package com.ipssi.ocr;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.ipssi.ocr.databinding.ActivityMainBinding;
-import com.ipssi.ocr.ocrUI.OcrCaptureActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.btnAfterLoad.setOnClickListener(this);
         binding.btnAfterUnload.setOnClickListener(this);
         binding.btnReport.setOnClickListener(this);
+        binding.btnLogout.setOnClickListener(this);
 
 
     }
@@ -42,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_report:
                 startActivity(new Intent(this, Reports.class));
+                break;
+            case R.id.btn_logout:
+                getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit().putString(C.token, null).apply();
+                getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, false).apply();
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
 
