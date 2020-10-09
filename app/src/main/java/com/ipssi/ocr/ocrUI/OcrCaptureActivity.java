@@ -91,6 +91,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         //read Ocr Config TO-DO need to change toone time it will be a read every time when activity creates
 
         OcrHelper.readConfigFile(this,"config.json");
+//        OcrHelper.readJsonFromURL(this);
         OCRUtility.appendLog("OcrActivity::","START.....");
         setContentView(R.layout.ocr_capture);
 

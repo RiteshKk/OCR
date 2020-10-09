@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.ipssi.ocr.Utills;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -42,7 +43,7 @@ public class OcrHelper {
                 sb.append("[value1=" + field.getValueBestPossible() + "] value2=[" + field.getValueSecondBestPossible() + "]\n");
                 sb.append("\n");
             }
-
+            sb.append("-----------------------------");
         } else {
 
             if (configList != null) {
@@ -68,7 +69,7 @@ public class OcrHelper {
         BufferedReader reader = null;
 
         try {
-            URL url = new URL("http://203.197.197.18:8480/static/OCR/config.json");
+            URL url = new URL(Utills.CONFIG_FILE_URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
@@ -84,7 +85,19 @@ public class OcrHelper {
                 buffer.append(line);
             }
 
-            return buffer.toString();
+
+            ConfigContainer configs = gson.fromJson(buffer.toString(), ConfigContainer.class);
+            configList = configs.getDocuments();
+
+            for (Document doc : configList) {
+                for (FormField formField : doc.getFormFields()) {
+                    FormFieldConfig config = formField.getFormconfig();
+                    config.setToMatch(OCRUtility.getCleanedString(config.getToMatch()));
+                    config.setReadThreshold(5);
+                }
+            }
+
+//            return buffer.toString();
 
 
         } catch (MalformedURLException e) {
@@ -171,7 +184,7 @@ public class OcrHelper {
 //        MyLine g_nextLine=nextLine!=null?nextLine:null;
 //		public static boolean process(Line currLine, Line prevLine, Line nextLine) {
 if(currLine!=null)
-        Log.e("Curr Line [" , currLine.getLineString() + "]"+currLine.getTop()+" b:"+currLine.getBottom()+" idx:"+currIndex);
+    Log.e("Process Curr Line [", currLine.getLineString() + "]t:" + currLine.getTop() + " b:" + currLine.getBottom() + " idx:" + currIndex);
 
         boolean isAllFieldscomplete = false;
 
@@ -226,10 +239,13 @@ if(currLine!=null)
     }
 
 
-	public static void resetObjects() {
-    	currDocument=null;
-    	configList=null;
-	}
+    public static void resetObjects() {
+        currDocument = null;
+        configList = null;
+    }
 
 
+    public static void callAfterCompleteActionURL() {
+
+    }
 }

@@ -123,14 +123,16 @@ return;
 	
 	
 	public static String getPreviousWord(String str, String word) {
-	    String lastWord = null;
-	    // to remove multi spaces with single space
-	    str = str.trim().replaceAll(" +", " ");
-	    int wordStartIndex = str.indexOf(word);
-	    str= str.substring(0,wordStartIndex).trim();
-	    lastWord=str.substring(str.lastIndexOf (' '), str.length()).trim();
-	    if(lastWord!=null && !"".equals(lastWord))	
-	    	lastWord=lastWord.substring(0,1).equalsIgnoreCase("|")?lastWord.substring(1):lastWord;
-	    return lastWord;
-	}
+        String lastWord = null;
+        // to remove multi spaces with single space
+        if (str != null && str.length() <= word.length())
+            return null;
+        str = str.trim().replaceAll(" +", " ");
+        int wordStartIndex = str.indexOf(word);
+        str = str.substring(0, wordStartIndex).trim();
+        lastWord = str.substring(str.lastIndexOf(' '), str.length()).trim();
+        if (lastWord != null && !"".equals(lastWord))
+            lastWord = lastWord.substring(0, 1).equalsIgnoreCase("|") ? lastWord.substring(1) : lastWord;
+        return lastWord;
+    }
 }

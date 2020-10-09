@@ -4,6 +4,7 @@
         <domain includeSubdomains="true">203.197.197.18</domain>
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">bcclweb.in</domain>
     </domain-config>
 
     <debug-overrides>

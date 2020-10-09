@@ -4,6 +4,10 @@ import android.graphics.Rect;
 import android.os.Environment;
 import android.util.Log;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -184,17 +188,26 @@ public class Document {
 		boolean retval = true;
 		Log.d("CURRLINE",currLine.getLineString());
 		for (FormField field : formFields) {
-			FormFieldConfig config = field.getFormconfig();
-			if (field.isComplete())
-				continue;
-			int nextPosToCheckFrom = 0;
-			int lineSz = currLine.getLineString().length();
-			boolean fieldComplete = false;
+            FormFieldConfig config = field.getFormconfig();
+            if (field.isComplete()) {
+                String url_ = config.getAfterCompleteAction();
 
-			for (; nextPosToCheckFrom < lineSz; ) {
+                try {
+                    if (url_ != null && url_.length() > 10)
+                        callAfterCompleteActionURL(url_);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                continue;
+            }
+            int nextPosToCheckFrom = 0;
+            int lineSz = currLine.getLineString().length();
+            boolean fieldComplete = false;
 
-				if (valReader != null) {
-					Pair<MyLine.ElemPlusPos, Integer> elemPlusSearchRes = currLine.getElemMatchAndWhereToReadFrom(config.getToMatch(), nextPosToCheckFrom);
+            for (; nextPosToCheckFrom < lineSz; ) {
+
+                if (valReader != null) {
+                    Pair<MyLine.ElemPlusPos, Integer> elemPlusSearchRes = currLine.getElemMatchAndWhereToReadFrom(config.getToMatch(), nextPosToCheckFrom);
 					if (elemPlusSearchRes == null)
 						break;
 					MyLine.ElemPlusPos searchRes = elemPlusSearchRes.first;
@@ -229,12 +242,32 @@ public class Document {
 						if (false && tempOcrStr == null) {
 							tempOcrStr = valReader.getValueAboveBelow(searchRes, false, valueLen, cleanExp, matchExp);
 						}
-					} else if (readPattern == 2) {// 2-FORWARD
-						tempOcrStr = valReader.getValueInLine(searchRes,elemPlusSearchRes.second, valueLen, cleanExp, matchExp);
-						if (false && tempOcrStr == null) {
-							tempOcrStr = valReader.getValueInLine(searchRes,elemPlusSearchRes.second, valueLen, cleanExp, matchExp);
-						}
-					}
+                    } else if (readPattern == 2) {// 2-FORWARD
+                        tempOcrStr = valReader.getValueInLine(searchRes, elemPlusSearchRes.second, valueLen, cleanExp, matchExp);
+                        if (false && tempOcrStr == null) {
+                            tempOcrStr = valReader.getValueInLine(searchRes, elemPlusSearchRes.second, valueLen, cleanExp, matchExp);
+                        }
+                    } else if (readPattern == 3) {// 2-Backward
+//						String str= prevLine.getLineString();
+//						str.replaceAll(config.getReplaceExpr(),"");
+//						tempOcrStr=str;
+                        Rect bnd = searchRes.getElem().getBoundingBox();
+                        int top = bnd.top;
+                        int bottom = bnd.bottom;
+                        int right = bnd.right;
+                        int left = bnd.left;
+                        int maxLinesToLook = config.getMaxLinesToLook();
+                        if (config.isRightLookUnbounded())
+                            right = -1;
+                        if (config.isLeftLookUnbounded())
+                            left = -1;
+//						MyLine prevLine = getPrevLine(top, bottom, left, right, allLines, currIndex, maxLinesToLook);
+//						tempOcrStr = valReader.getValueAboveBelow(searchRes, true, valueLen, cleanExp, matchExp);
+
+                        tempOcrStr = OCRUtility.getPreviousWord(currLine.getLineString(), config.getToMatch());
+//						tempOcrStr = currLine.getValue(null, searchRes.pos, valueLen, null,  config.getReadDirection());
+
+                    }
 					if (tempOcrStr != null && !"null".equalsIgnoreCase(tempOcrStr) && tempOcrStr.length() > 0) {//TODO do we need it
 						boolean isValid = true;//validateType(tempOcrStr, config); //validation already done
 						if (!isValid) {
@@ -309,10 +342,17 @@ public class Document {
 						Log.d("nextLine", nextLine == null ? "NULL" : nextLine.getLineString());
 						tempOcrStr = nextLine == null ? tempOcrStr : nextLine.getValue(searchRes.elem, -1, valueLen, config.getToMatch(), config.getReadDirection());
 
-					} else if (readPattern == 2) {// 2-FORWARD
-						tempOcrStr = currLine.getValue(null, searchRes.pos, valueLen, null, 1);
+                    } else if (readPattern == 2) {// 2-FORWARD
+                        tempOcrStr = currLine.getValue(null, searchRes.pos, valueLen, null, 1);
 
-					}
+                    } else if (readPattern == 3) {// 2-Backward
+                        String str = prevLine.getLineString();
+                        str.replaceAll(config.getReplaceExpr(), "");
+                        tempOcrStr = str;
+//						tempOcrStr =OCRUtility.getPreviousWord(currLine.getLineString(),config.getMatchExpr());
+//						tempOcrStr = currLine.getValue(null, searchRes.pos, valueLen, null,  config.getReadDirection());
+
+                    }
 
 					if (!"null".equalsIgnoreCase(tempOcrStr) && tempOcrStr.length() > 0) {
 						boolean isValid = validateType(tempOcrStr, config);
@@ -326,24 +366,89 @@ public class Document {
 						break;//found a match pos in the form field with appropriate value .. look at next form field
 					} else {
 						nextPosToCheckFrom += config.getToMatch().length();
-					}
-					break; //found a match pos for the the form field in the line that seems
-				}//end of old approach
-			}//for each whole of line
-			if (!fieldComplete)
-				retval = false;
-		}//for each for field
-		return retval;
-	}
+                    }
+                    break; //found a match pos for the the form field in the line that seems
+                }//end of old approach
+            }//for each whole of line
+            if (!fieldComplete)
+                retval = false;
+        }//for each for field
+        return retval;
+    }
+
+    private void callAfterCompleteActionURL(String url) throws IOException {
+        try {
+            org.jsoup.nodes.Document doc = Jsoup.connect(url).get();//.parse(new File("d:\\BCCL.html"), "utf8");
+            Element tableElement = doc.select("table[id=example]").get(0);
+            Elements rows = tableElement.children().get(1).children();
+            int index = 0;
+            for (Element row : rows) {
+                updateDocumentFormField(row);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
+
+//		new AsyncTask<Void, Void, String>() {
+//			@Override
+//			protected String doInBackground(Void... params) {
+//				Document doc= Jsoup.connect("http://www.google.com").get();
+//				// parse the document here and return what ever data you want
+//				return myFunData;
+//			}
+//
+//			@Override
+//			protected void onPostExecute(YourDataObject data) {
+//				//update UI based on results of parsing html
+//			}
+//		}.execute((Void) null);
+//		Jsoup ;
+//		Document doc = org.jsoup.Jsoup.connect("https://en.wikipedia.org/").get();
+//		log(doc.title());
+//		Elements newsHeadlines = doc.select("#mp-itn b a");
+//		for (Element headline : newsHeadlines) {
+//			log("%s\n\t%s",
+//					headline.attr("title"), headline.absUrl("href"));
+//		}
+
+    }
+
+    private void updateDocumentFormField(Element row) {
+        Element header = row.children().get(0);
+        Element column = row.children().get(1);
+//		System.out.println("data["+(index++)+"] "+header.html()+": "+column.html());
+        for (FormField field : formFields) {
+            FormFieldConfig config = field.getFormconfig();
+            field.setUrlReadComplete(true);
+            if (config.getToMatch().equalsIgnoreCase("invoice_no") && header.html().equalsIgnoreCase("GST_BILL_NO")) {
+//				field.addValue();
+                continue;
+            } else if (config.getToMatch().equalsIgnoreCase("customer") && header.html().equalsIgnoreCase("CONSIGNEE_NAME")) {
+                field.addValue(column.html());
+            } else if (config.getToMatch().equalsIgnoreCase("date_out") && header.html().equalsIgnoreCase("DATE OUT")) {
+                field.addValue(column.html().replaceAll(":", ""));
+            } else if (config.getToMatch().equalsIgnoreCase("time_out") && header.html().equalsIgnoreCase("TIME OUT")) {
+                field.addValue(column.html().replaceAll(":", ""));
+            } else if (config.getToMatch().equalsIgnoreCase("qty") && header.html().equalsIgnoreCase("NET_WEIGHT")) {
+                field.addValue(column.html());
+            } else if (config.getToMatch().equalsIgnoreCase("do_no") && header.html().equalsIgnoreCase("DO_NO")) {
+                field.addValue(column.html());
+            } else if (config.getToMatch().equalsIgnoreCase("vehicle_no") && header.html().equalsIgnoreCase("TRUCK_NO")) {
+                field.addValue(column.html());
+            }
+        }
+
+    }
 
 
-	public static String getFilename(){
-		Date c = Calendar.getInstance().getTime();
-		int h=c.getHours();
-		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-		String formattedDate = df.format(c);
-		return "OCR_"+formattedDate+"_"+h;
-	}
+    public static String getFilename() {
+        Date c = Calendar.getInstance().getTime();
+        int h = c.getHours();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        return "OCR_" + formattedDate + "_" + h;
+    }
 
 	public static void appendLog(String tag){
 		appendLog(tag,null);

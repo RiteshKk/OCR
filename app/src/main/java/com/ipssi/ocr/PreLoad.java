@@ -2,10 +2,10 @@ package com.ipssi.ocr;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +20,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.ipssi.OcrApp;
 import com.ipssi.ocr.databinding.ActivityPreLoadBinding;
 
@@ -39,6 +38,8 @@ public class PreLoad extends AppCompatActivity {
         ActivityPreLoadBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_pre_load);
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String lastDoNumber = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).getString(C.last_do_number, null);
+        binding.layoutDoRr.getEditText().setText(lastDoNumber == null ? "" : lastDoNumber);
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,10 +67,11 @@ public class PreLoad extends AppCompatActivity {
                 TextInputLayout doInputLayout = preLoad.findViewById(R.id.layout_do_rr);
                 Editable do_rr = doInputLayout.getEditText().getText();
 
-               dataObj.put("veh",veh.toString());
-                dataObj.put("do",do_rr.toString());
+                dataObj.put("veh", veh.toString());
+                dataObj.put("do", do_rr.toString());
+                preLoad.getSharedPreferences(preLoad.getString(R.string.app_name), MODE_PRIVATE).edit().putString(C.last_do_number, do_rr.toString()).apply();
 
-              } catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 //Build Request

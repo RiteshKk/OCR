@@ -202,14 +202,94 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             if (Math.abs(tempAllLines.get(i).getLineSlope()) > Math.abs(maxSlope))
                 maxSlope = tempAllLines.get(i).getLineSlope();
         }
-        for (int i = index+1, is = Math.min(tempAllLines.size(),index+3); i<is; i++) {
+        for (int i = index + 1, is = Math.min(tempAllLines.size(), index + 3); i < is; i++) {
             if (Math.abs(tempAllLines.get(i).getLineSlope()) > Math.abs(maxSlope))
                 maxSlope = tempAllLines.get(i).getLineSlope();
         }
         return maxSlope;
     }
+
     public static final boolean g_doSlopeBased = false;
     public static final boolean g_doNewValReader = true;
+
+    public static void mergeLine(ArrayList<MyLine> allLines, MyLine newLine) {
+        ArrayList<MyLine.ElemPlusPos> newLineElemList = newLine.getLineElem();
+        if (newLineElemList == null && newLineElemList.size() <= 0)
+            return;
+        Rect firstRect = newLineElemList.get(0).getElem().getBoundingBox();
+        Rect lastRect = newLineElemList.get(newLineElemList.size() - 1).getElem().getBoundingBox();
+        int left = firstRect.left;
+        int right = lastRect.right;
+        int adjustedTop = newLine.getTop();
+        int adjustedBottom = newLine.getBottom();
+        int height = adjustedBottom - adjustedTop;
+        boolean merged = false;
+//        Log.d("New Line", newLine.getLineString()+" AdjTop:"+adjustedTop+" Left:"+left+" Rt:"+right);
+        for (int i = 0, is = allLines.size(); i < is; i++) {
+            MyLine candidateLine = allLines.get(i);
+            ArrayList<MyLine.ElemPlusPos> candidateLineElemList = candidateLine.getLineElem();
+            Rect candidateLineFirstRect = candidateLineElemList.get(0).getElem().getBoundingBox();
+            Rect candidateLineLastRect = candidateLineElemList.get(candidateLineElemList.size() - 1).getElem().getBoundingBox();
+
+            int candidateLineLeft = candidateLineFirstRect.left;
+            int candidateLineRight = candidateLineLastRect.right;
+            int candidateBottom = candidateLine.getBottom();
+            int candidateTop = candidateLine.getTop();
+            int candidateHeight = candidateBottom - candidateTop;
+//            Log.d("Candidate Line", candidateLine.getLineString()+" AdjTop:"+candidateTop+" Left:"+candidateLineLeft+" Rt:"+candidateLineRight);
+            int overlapVert = 0;
+            if (candidateBottom <= adjustedTop || candidateTop >= adjustedBottom)
+                overlapVert = 0;
+            else if (candidateTop >= adjustedTop) {  //candidate line below top of newLine
+                if (candidateBottom <= adjustedBottom) //but candidate bottom above bottom of new line
+                    overlapVert = candidateBottom - candidateTop;
+                else //if (candidateBottom > adjustedBottom)
+                    overlapVert = adjustedBottom - candidateTop;
+            } else { //if (adjustedTop > candidateTop) {//new line below candidate
+                if (candidateBottom <= adjustedBottom) //but candidateBottom is above new line bottom
+                    overlapVert = candidateBottom - adjustedTop;
+                else //if (candidateBottom > adjustedBottom)
+                    overlapVert = adjustedBottom - adjustedTop;
+            }
+            int minH = Math.min(height, candidateHeight);
+            if (overlapVert > 0.5 * height) { //vertically seems to be in same line
+                if (candidateLineRight <= left) { //candidate line to left of newLine
+                    merged = true;
+                    addLineToElementList(candidateLine, newLine, true);//candidateLine.add(newLine.getLineElem().get(i2));
+//                    Log.d("Line Merged : "," Cand On Left:"+candidateLine.getLineString());
+
+                } else if (candidateLineLeft >= right) {//candidate line to right of newLine
+                    merged = true;
+                    addLineToElementList(candidateLine, newLine, false);
+//                    Log.d("Line Merged : "," Cand On right:"+candidateLine.getLineString());
+                }
+
+
+            }
+            if (merged)
+                break;
+
+        }
+        if (!merged)
+            allLines.add(newLine);
+    }
+
+    public void writeSortedLinesStringAsFile(MyLine line) {
+
+        try {
+            String filename = Environment.getExternalStorageDirectory()
+                    .getAbsolutePath() + "/" + getFilename();
+            FileWriter fw = new FileWriter(filename, true);
+//            fw.write("---------Sorted Line-------- \n");//+"x="+location[0]+",y="+location[1] + "\n");
+            fw.write("line:[" + line.getLineString() + "]");
+            fw.write("Rect:[" + line.getLine().getBoundingBox().flattenToString() + "]\n\n");
+
+            fw.close();
+        } catch (IOException e) {
+            Log.e("OcrDetectorProcessor", e.getMessage());
+        }
+    }
+
     @Override
     public void receiveDetections(Detector.Detections<TextBlock> detections) {
         graphicOverlay.clear();
@@ -271,14 +351,14 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
             Collections.sort(allLines);
             Log.d("Sorted", "All Lines: slope: " + slopeTot + " slopecnt:" + slopeCnt);
-            for (MyLine line : allLines) {
+          /*  for (MyLine line : allLines) {
                 System.out.println("line:[" + line.getLineString() + "] Cnt:" + line.getLineElem().size() + " adjTop:" + line.getTop()
                         + " First top:" + line.getLineElem().get(0).getElem().getBoundingBox().top
                         + " First left:" + line.getLineElem().get(0).getElem().getBoundingBox().left
                         + " Last top:" + line.getLineElem().get(line.getLineElem().size() - 1).getElem().getBoundingBox().top
                         + " Last right:" + line.getLineElem().get(line.getLineElem().size() - 1).getElem().getBoundingBox().right
                 );
-            }
+            }*/
         }//if doSlopeBased
         else {
             allLines = tempAllLines;
@@ -312,84 +392,6 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             }
         }
         createOCRFormGraphics();
-    }
-
-    public void writeSortedLinesStringAsFile(MyLine line) {
-
-        try {
-            String filename = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath() + "/"+getFilename();
-            FileWriter fw = new FileWriter(filename, true);
-//            fw.write("---------Sorted Line-------- \n");//+"x="+location[0]+",y="+location[1] + "\n");
-            fw.write("line:["+line.getLineString()+"]");
-            fw.write("Rect:["+line.getLine().getBoundingBox().flattenToString()+"]\n\n");
-
-            fw.close();
-        } catch (IOException e) {
-            Log.e("OcrDetectorProcessor", e.getMessage());
-        }
-    }
-
-    public static void mergeLine(ArrayList<MyLine> allLines, MyLine newLine) {
-        ArrayList<MyLine.ElemPlusPos> newLineElemList = newLine.getLineElem();
-        if(newLineElemList==null && newLineElemList.size()<=0)
-            return;
-        Rect firstRect = newLineElemList.get(0).getElem().getBoundingBox();
-        Rect lastRect = newLineElemList.get(newLineElemList.size() - 1).getElem().getBoundingBox();
-        int left = firstRect.left;
-        int right = lastRect.right;
-        int adjustedTop = newLine.getTop();
-        int adjustedBottom = newLine.getBottom();
-        int height = adjustedBottom-adjustedTop;
-        boolean merged = false;
-        Log.d("New Line", newLine.getLineString()+" AdjTop:"+adjustedTop+" Left:"+left+" Rt:"+right);
-        for (int i = 0, is = allLines.size(); i < is; i++) {
-            MyLine candidateLine = allLines.get(i);
-            ArrayList<MyLine.ElemPlusPos> candidateLineElemList = candidateLine.getLineElem();
-            Rect candidateLineFirstRect = candidateLineElemList.get(0).getElem().getBoundingBox();
-            Rect candidateLineLastRect = candidateLineElemList.get(candidateLineElemList.size() - 1).getElem().getBoundingBox();
-
-            int candidateLineLeft = candidateLineFirstRect.left;
-            int candidateLineRight = candidateLineLastRect.right;
-            int candidateBottom = candidateLine.getBottom();
-            int candidateTop = candidateLine.getTop();
-            int candidateHeight = candidateBottom-candidateTop;
-//            Log.d("Candidate Line", candidateLine.getLineString()+" AdjTop:"+candidateTop+" Left:"+candidateLineLeft+" Rt:"+candidateLineRight);
-            int overlapVert = 0;
-            if (candidateBottom <= adjustedTop || candidateTop >= adjustedBottom)
-                overlapVert = 0;
-            else if (candidateTop >= adjustedTop) {  //candidate line below top of newLine
-                if (candidateBottom <= adjustedBottom) //but candidate bottom above bottom of new line
-                    overlapVert = candidateBottom - candidateTop;
-                else //if (candidateBottom > adjustedBottom)
-                    overlapVert = adjustedBottom - candidateTop;
-            } else { //if (adjustedTop > candidateTop) {//new line below candidate
-                if (candidateBottom <= adjustedBottom) //but candidateBottom is above new line bottom
-                    overlapVert = candidateBottom - adjustedTop;
-                else //if (candidateBottom > adjustedBottom)
-                    overlapVert = adjustedBottom - adjustedTop;
-            }
-            int minH = Math.min(height, candidateHeight);
-            if (overlapVert > 0.5 * height) { //vertically seems to be in same line
-                if (candidateLineRight <= left) { //candidate line to left of newLine
-                    merged = true;
-                    addLineToElementList(candidateLine, newLine, true);//candidateLine.add(newLine.getLineElem().get(i2));
-                    Log.d("Line Merged : "," Cand On Left:"+candidateLine.getLineString());
-
-                } else if (candidateLineLeft >= right) {//candidate line to right of newLine
-                    merged = true;
-                    addLineToElementList(candidateLine, newLine, false);
-                    Log.d("Line Merged : "," Cand On right:"+candidateLine.getLineString());
-                }
-
-
-            }
-            if (merged)
-                break;
-
-        }
-            if (!merged)
-                allLines.add(newLine);
     }
 
     private static void addLineToElementList(MyLine candidateLine, MyLine newLine,boolean addToLeft) {

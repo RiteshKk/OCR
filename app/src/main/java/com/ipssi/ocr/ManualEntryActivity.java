@@ -10,20 +10,14 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
-import com.ipssi.OcrApp;
 import com.ipssi.ocr.adapter.CustomSpinnerAdapter;
 import com.ipssi.ocr.databinding.ActivityManualEntryBinding;
 import com.ipssi.ocr.model.FormData;
@@ -69,9 +63,34 @@ public class ManualEntryActivity extends AppCompatActivity {
 
     private void setupViews() {
         materialAdapter = new CustomSpinnerAdapter(ManualEntryActivity.this,
-                android.R.layout.simple_spinner_dropdown_item,
-                materialList);
+                android.R.layout.simple_spinner_dropdown_item, materialList);
         binding.spinnerMaterial.setAdapter(materialAdapter);
+
+
+        ArrayList<Pair<Integer, String>> source = new ArrayList<>();
+        source.add(new Pair<>(1, "Source1"));
+        source.add(new Pair<>(1, "Source2"));
+        source.add(new Pair<>(1, "Source3"));
+
+        CustomSpinnerAdapter sourceAdapter = new CustomSpinnerAdapter(ManualEntryActivity.this,
+                android.R.layout.simple_spinner_dropdown_item, source);
+        binding.spinnerSource.setAdapter(sourceAdapter);
+
+        ArrayList<Pair<Integer, String>> custList = new ArrayList<>();
+        custList.add(new Pair<>(1, "Cust1"));
+        custList.add(new Pair<>(1, "Cust2"));
+        custList.add(new Pair<>(1, "Cust3"));
+
+        CustomSpinnerAdapter custAdapter = new CustomSpinnerAdapter(ManualEntryActivity.this,
+                android.R.layout.simple_spinner_dropdown_item, custList);
+        binding.spinnerShipToParty.setAdapter(custAdapter);
+
+      /*  ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner sItems = (Spinner) findViewById(R.id.spinner1);
+        sItems.setAdapter(adapter);*/
     }
 
     private FormData parseData(String text) {
@@ -129,7 +148,11 @@ public class ManualEntryActivity extends AppCompatActivity {
     }
 
     public void fetchMaterialData() {
-        RequestQueue requestQueue = OcrApp.instance.getRequestQueue();
+        materialList.add(new Pair<>(1, "Coal"));
+        materialList.add(new Pair<>(1, "FlyAsh"));
+        materialList.add(new Pair<>(1, "Sand"));
+
+        /*RequestQueue requestQueue = OcrApp.instance.getRequestQueue();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Utills.MAT_URL,
                 null,
                 new Listener<JSONObject>() {
@@ -155,7 +178,13 @@ public class ManualEntryActivity extends AppCompatActivity {
                         Log.e("error check", error.getMessage() + "");
                     }
                 });
-        requestQueue.add(request);
+        requestQueue.add(request);*/
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setupViews();
+            }
+        });
     }
 
     @Override
@@ -212,6 +241,31 @@ public class ManualEntryActivity extends AppCompatActivity {
                     data.put("userEditedValue", userValue);
                     valueArr.put(data);
                 }
+
+                if (true) {
+                    JSONObject data = new JSONObject();
+                    data.put("formFieldName", "mat_id");
+                    data.put("bestPossibleValue", binding.spinnerMaterial.getSelectedItem().toString());
+                    data.put("secondBestPossibleValue", binding.spinnerMaterial.getSelectedItem().toString());
+                    data.put("userEditedValue", null);
+                    valueArr.put(data);
+
+                    JSONObject data1 = new JSONObject();
+                    data1.put("formFieldName", "source_id");
+                    data1.put("bestPossibleValue", binding.spinnerSource.getSelectedItem().toString());
+                    data1.put("secondBestPossibleValue", binding.spinnerSource.getSelectedItem().toString());
+                    data1.put("userEditedValue", null);
+                    valueArr.put(data1);
+
+                    JSONObject data11 = new JSONObject();
+                    data11.put("formFieldName", "cust_id");
+                    data11.put("bestPossibleValue", binding.spinnerShipToParty.getSelectedItem().toString());
+                    data11.put("secondBestPossibleValue", binding.spinnerShipToParty.getSelectedItem().toString());
+                    data11.put("userEditedValue", null);
+                    valueArr.put(data11);
+
+                }
+
                 docObj.put("formFields", valueArr);
                 docArry.put(docObj);
 

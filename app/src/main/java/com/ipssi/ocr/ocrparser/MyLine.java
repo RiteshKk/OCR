@@ -158,17 +158,17 @@ public class MyLine  implements Comparable<MyLine> {
         int lookFrom = 0;
         if (refElem != null) {
             Rect refRect = refElem.getBoundingBox();
-            System.out.println("Search Rect- ["+refRect+"]");
+//            System.out.println("Search Rect- ["+refRect+"]");
             for (int i = 0, is = lineElem.size(); i < is; i++) {
                 Element e = lineElem.get(i).elem;
                 Rect erect = e.getBoundingBox();
-                System.out.println("E- ["+e.getValue()+"] pos ["+lineElem.get(i).getPos()+"] rect["+erect+"] condition["+ (erect.right < refRect.left)+"]");
+//                System.out.println("E- ["+e.getValue()+"] pos ["+lineElem.get(i).getPos()+"] rect["+erect+"] condition["+ (erect.right < refRect.left)+"]");
                 if (erect.right < refRect.left)
                 //if (erect.right >= refRect.left)
                     continue;
                 lookFrom = lineElem.get(i).pos;
             }
-            System.out.println("exists lookFrom ["+lookFrom+"]["+s+"] in ["+lineString+"]");
+//            System.out.println("exists lookFrom ["+lookFrom+"]["+s+"] in ["+lineString+"]");
         }
         return lineString.indexOf(s, 0) >= 0;
     }
@@ -211,7 +211,7 @@ public class MyLine  implements Comparable<MyLine> {
         if (refElem != null) {
             Rect refRect = refElem.getBoundingBox();
 
-            for (int i=0,is=lineElem.size();i<is;i++) {
+            for (int i = 0, is = lineElem.size(); i < is; i++) {
                 Element e = lineElem.get(i).elem;
                 Rect erect = e.getBoundingBox();
                 if (erect.right < refRect.left)
@@ -219,15 +219,18 @@ public class MyLine  implements Comparable<MyLine> {
                 strPosAfterOrIncl = lineElem.get(i).pos;
             }
         }
-        if (strPosAfterOrIncl>=0 && strPosAfterOrIncl<lineString.length() && lineString.charAt(strPosAfterOrIncl) == ' ')
+        if (readDirection == -1) {
+            readDirection = -1;
+        }
+        if (strPosAfterOrIncl >= 0 && strPosAfterOrIncl < lineString.length() && lineString.charAt(strPosAfterOrIncl) == ' ')
             strPosAfterOrIncl++;
         if (valueLen == -1) {
-            if(keyToMatch!=null && keyToMatch.length()<strPosAfterOrIncl)
-                strPosAfterOrIncl=keyToMatch.length();
+            if (keyToMatch != null && keyToMatch.length() < strPosAfterOrIncl)
+                strPosAfterOrIncl = keyToMatch.length();
 
-            if(readDirection==-1 )
-                return lineString.substring(0,lineString.length()-keyToMatch.length());
-            else if(readDirection==0 )
+            if (readDirection == -1)
+                return lineString.substring(0, lineString.length() - keyToMatch.length());
+            else if (readDirection == 0)
                 return lineString;
 
             return (strPosAfterOrIncl<0 || strPosAfterOrIncl>lineString.length())?"":lineString.substring(strPosAfterOrIncl);

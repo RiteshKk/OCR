@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background"
-        tools:context=".PreLoad">
+        tools:context=".AfterUnloadActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -74,26 +74,26 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/layout_datetime"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_40"
-                    android:hint="@string/datetime"
-                    android:theme="@style/TextLabel"
-                    android:textColorHint="@android:color/darker_gray"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_vehicle">
+                <!-- <android.support.design.widget.TextInputLayout
+                     android:id="@+id/layout_datetime"
+                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginHorizontal="@dimen/dp_20"
+                     android:layout_marginTop="@dimen/dp_40"
+                     android:hint="@string/datetime"
+                     android:theme="@style/TextLabel"
+                     android:textColorHint="@android:color/darker_gray"
+                     app:layout_constraintLeft_toLeftOf="parent"
+                     app:layout_constraintRight_toRightOf="parent"
+                     app:layout_constraintTop_toBottomOf="@id/layout_vehicle">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/black" />
+                     <android.support.design.widget.TextInputEditText
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:textColor="@android:color/black" />
 
-                </android.support.design.widget.TextInputLayout>
+                 </android.support.design.widget.TextInputLayout>-->
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 

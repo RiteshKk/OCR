@@ -130,7 +130,8 @@ public class NewValReader {
                 Rectangle rectangle = new Rectangle();
                 Rect r = elem.getElem().getBoundingBox();
                 rectangle.set(r.left, -r.top, r.right,-r.bottom);//flipping to cartersian - not sure if rtree works
-                Log.d("RTREE",elem.toString()+" r(LTRB):"+rectangle.minX+","+rectangle.minY+","+rectangle.maxX+","+rectangle.maxY);
+                if (LOG_LEVEL > 0)
+                    Log.d("RTREE", elem.toString() + " r(LTRB):" + rectangle.minX + "," + rectangle.minY + "," + rectangle.maxX + "," + rectangle.maxY);
                 retval.rtree.add(rectangle, pos);
             }
         }

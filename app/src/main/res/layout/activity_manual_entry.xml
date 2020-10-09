@@ -183,7 +183,7 @@
         </ScrollView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/btn_save"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_40"
@@ -194,15 +194,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <!-- <Button
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@android:color/transparent"
+                 android:drawableEnd="@drawable/arrow"
+                 android:paddingHorizontal="@dimen/dp_20"
+                 android:text="@string/save"
+                 android:textColor="@android:color/white"
+                 android:textSize="@dimen/button_text_size" />-->
             <Button
+                android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+                android:background="@color/colorPrimary"
                 android:drawableEnd="@drawable/arrow"
+                android:onClick="saveData"
                 android:paddingHorizontal="@dimen/dp_20"
                 android:text="@string/save"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </android.support.v7.widget.CardView>
 
     </android.support.constraint.ConstraintLayout>
