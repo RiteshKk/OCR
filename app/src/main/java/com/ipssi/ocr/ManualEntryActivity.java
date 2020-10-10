@@ -125,26 +125,25 @@ public class ManualEntryActivity extends AppCompatActivity {
 
     private void setViews(FormData data) {
         Objects.requireNonNull(binding.layoutCustomer.getEditText()).setText(data.getCustomer());
-        binding.layoutCustomer.getEditText().setFocusableInTouchMode(false);
-        binding.layoutCustomer.getEditText().setFocusable(false);
+        //uncomment these lines If you want to lock editing after OCR scan
+//        binding.layoutCustomer.getEditText().setFocusableInTouchMode(false);
+//        binding.layoutCustomer.getEditText().setFocusable(false);
 
         binding.layoutInvoice.getEditText().setText(data.getInvoiceNo());
-        binding.layoutInvoice.getEditText().setFocusableInTouchMode(false);
-        binding.layoutInvoice.getEditText().setFocusable(false);
+//        binding.layoutInvoice.getEditText().setFocusableInTouchMode(false);
+//        binding.layoutInvoice.getEditText().setFocusable(false);
 
         binding.layoutVehicle.getEditText().setText(data.getVehicleNo());
-        binding.layoutVehicle.getEditText().setFocusableInTouchMode(false);
-        binding.layoutVehicle.getEditText().setFocusable(false);
+//        binding.layoutVehicle.getEditText().setFocusableInTouchMode(false);
+//        binding.layoutVehicle.getEditText().setFocusable(false);
 
         binding.layoutWeight.getEditText().setText(data.getQty());
-        binding.layoutWeight.getEditText().setFocusableInTouchMode(false);
-        binding.layoutWeight.getEditText().setFocusable(false);
+//        binding.layoutWeight.getEditText().setFocusableInTouchMode(false);
+//        binding.layoutWeight.getEditText().setFocusable(false);
 
         binding.layoutLr.getEditText().setText(data.getSrNo());
-        binding.layoutLr.getEditText().setFocusable(false);
-        binding.layoutLr.getEditText().setFocusableInTouchMode(false);
-
-
+//        binding.layoutLr.getEditText().setFocusable(false);
+//        binding.layoutLr.getEditText().setFocusableInTouchMode(false);
     }
 
     public void fetchMaterialData() {

@@ -3,6 +3,7 @@ package com.ipssi.ocr;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
@@ -23,10 +24,26 @@ public class AfterLoadActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.btn_ocr).setOnClickListener(this);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+        } else if (item.getItemId() == R.id.menu_home) {
+            Intent home = new Intent(this, MainActivity.class);
+            home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(home);
+        } else if (item.getItemId() == R.id.menu_logout) {
+            getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit().clear().apply();
+            Intent login = new Intent(this, LoginActivity.class);
+            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(login);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -39,7 +56,6 @@ public class AfterLoadActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.btn_ocr:
                 Intent intent = new Intent(this, OcrCaptureActivity.class);
-                intent.putExtra("switch",((Switch) findViewById(R.id.hash_switch)).isChecked());
                 startActivity(intent);
                 break;
 

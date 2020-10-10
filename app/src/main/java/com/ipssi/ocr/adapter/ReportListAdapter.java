@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 
 import com.ipssi.ocr.R;
 
-public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.ViewHolder> {
+import java.util.ArrayList;
 
+public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.ViewHolder> {
+// variable to handle List of objects
+     private ArrayList dataList;
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -18,7 +21,7 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return 10;
+        return dataList == null ? 0 : dataList.size();
     }
 
     @Override
@@ -31,5 +34,11 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.Vi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+
+    public void setData(ArrayList list){
+         this.dataList = list;
+         notifyDataSetChanged();
     }
 }

@@ -38,11 +38,15 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.ipssi.ocr.C;
+import com.ipssi.ocr.ManualEntryActivity;
 import com.ipssi.ocr.R;
 import com.ipssi.ocr.camera.CameraSource;
 import com.ipssi.ocr.camera.CameraSourcePreview;
@@ -90,56 +94,45 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         super.onCreate(bundle);
         //read Ocr Config TO-DO need to change toone time it will be a read every time when activity creates
 
-        OcrHelper.readConfigFile(this,"config.json");
+        OcrHelper.readConfigFile(this, "config.json");
 //        OcrHelper.readJsonFromURL(this);
-        OCRUtility.appendLog("OcrActivity::","START.....");
+        OCRUtility.appendLog("OcrActivity::", "START.....");
         setContentView(R.layout.ocr_capture);
 
-        Button showValues = (Button) findViewById(R.id._button);
-        showValues.setVisibility(View.INVISIBLE);
-        showValues.setOnClickListener(new View.OnClickListener(){
+        Button skipButton = (Button) findViewById(R.id.btn_skip);
+        skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-//                cameraSource.release();
-//                Intent intent = new Intent(OcrCaptureActivity.this, ShowOcrDataActivity.class);
-//                    intent.putExtras(sendBundle);
-//                startActivity(intent);
+            public void onClick(View v) {
+                Intent intent = new Intent(OcrCaptureActivity.this, ManualEntryActivity.class);
+                intent.putExtra(C.IsScanned,false);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 
-      /*  Button onFlash = (Button) findViewById(R.id._button_flash);
-        onFlash.setOnClickListener(new View.OnClickListener(){
-
-
+        CheckBox onFlash = (CheckBox) findViewById(R.id.flash_button);
+        onFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v){
-                if(useFlash)
-                    useFlash=false;
-                else useFlash=true;
-                cameraSource.setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_ON : Camera.Parameters.FLASH_MODE_OFF);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                cameraSource.setFlashMode(b ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
             }
-        });*/
+        });
 
         preview = (CameraSourcePreview) findViewById(R.id.preview);
         graphicOverlay = findViewById(R.id.graphicOverlay);
-
-        boolean useFlash = false;
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-            useFlash = extras.getBoolean("switch",false);
 
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource(true, useFlash);
+            createCameraSource(true, false);
         } else {
             requestCameraPermission();
         }
 
         int rs = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (rs!= PackageManager.PERMISSION_GRANTED) {
+        if (rs != PackageManager.PERMISSION_GRANTED) {
             requestStoragePermission();
         }
 
@@ -147,22 +140,22 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         Snackbar.make(graphicOverlay, "Tap to Speak. Pinch/Stretch to zoom",
-                Snackbar.LENGTH_LONG)
-                .show();
+            Snackbar.LENGTH_LONG)
+            .show();
 
         // Set up the Text To Speech engine.
         TextToSpeech.OnInitListener listener =
-                new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(final int status) {
-                        if (status == TextToSpeech.SUCCESS) {
-                            Log.d("OnInitListener", "Text to speech engine started successfully.");
-                            tts.setLanguage(Locale.US);
-                        } else {
-                            Log.d("OnInitListener", "Error starting the text to speech engine.");
-                        }
+            new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(final int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        Log.d("OnInitListener", "Text to speech engine started successfully.");
+                        tts.setLanguage(Locale.US);
+                    } else {
+                        Log.d("OnInitListener", "Error starting the text to speech engine.");
                     }
-                };
+                }
+            };
         tts = new TextToSpeech(this.getApplicationContext(), listener);
     }
 
@@ -170,8 +163,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         Log.w(TAG, "WRITE_EXTERNAL_STORAGE permission is not granted. Requesting permission");
 
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ActivityCompat.requestPermissions(this,  new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
             return;
         }
 
@@ -182,8 +175,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 ActivityCompat.requestPermissions(thisActivity,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        100);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    100);
             }
         };
     }
@@ -199,14 +192,14 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CAMERA)) {
+            Manifest.permission.CAMERA)) {
             ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM);
             return;
         }
 
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ActivityCompat.requestPermissions(this,  new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
             return;
         }
 
@@ -216,17 +209,17 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ActivityCompat.requestPermissions(thisActivity, permissions,
-                        RC_HANDLE_CAMERA_PERM);
+                    RC_HANDLE_CAMERA_PERM);
                 ActivityCompat.requestPermissions(thisActivity,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        100);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    100);
             }
         };
 
         Snackbar.make(graphicOverlay, R.string.permission_camera_rationale,
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.ok, listener)
-                .show();
+            Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.ok, listener)
+            .show();
     }
 
     @Override
@@ -242,7 +235,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
      * to other detection examples to enable the ocr detector to detect small text samples
      * at long distances.
-     *
+     * <p>
      * Suppressing InlinedApi since there is a check that the minimum version is met before using
      * the constant.
      */
@@ -255,7 +248,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         // graphics for each text block on screen.  The factory is used by the multi-processor to
         // create a separate tracker instance for each text block.
         TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
-        textRecognizer.setProcessor(new OcrDetectorProcessor(graphicOverlay,context));
+        textRecognizer.setProcessor(new OcrDetectorProcessor(graphicOverlay, context));
 
         if (!textRecognizer.isOperational()) {
             // Note: The first time that an app using a Vision API is installed on a
@@ -286,15 +279,15 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         // to other detection examples to enable the text recognizer to detect small pieces of text.
 //        useFlash=false;
         cameraSource =
-                new CameraSource.Builder(getApplicationContext(), textRecognizer)
-                        .setFacing(CameraSource.CAMERA_FACING_BACK)
-                        .setRequestedPreviewSize(1280, 1024)
-                        .setRequestedPreviewSize(1024, 768)
-                        .setRequestedPreviewSize(1024, 768)
-                        .setRequestedFps(4.0f)
-                        .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
-                        .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO : null)
-                        .build();
+            new CameraSource.Builder(getApplicationContext(), textRecognizer)
+                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setRequestedPreviewSize(1280, 1024)
+                .setRequestedPreviewSize(1024, 768)
+                .setRequestedPreviewSize(1024, 768)
+                .setRequestedFps(4.0f)
+                .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
+                .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO : null)
+                .build();
 
     }
 
@@ -325,7 +318,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        OCRUtility.appendLog("OcrActivity::","END.....");
+        OCRUtility.appendLog("OcrActivity::", "END.....");
         if (preview != null) {
             preview.release();
         }
@@ -360,14 +353,14 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,true);
+            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, true);
             boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
             createCameraSource(autoFocus, useFlash);
             return;
         }
 
         Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
-                " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
+            " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -377,9 +370,9 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Multitracker sample")
-                .setMessage(R.string.no_camera_permission)
-                .setPositiveButton(R.string.ok, listener)
-                .show();
+            .setMessage(R.string.no_camera_permission)
+            .setPositiveButton(R.string.ok, listener)
+            .show();
     }
 
     /**
@@ -390,10 +383,10 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private void startCameraSource() throws SecurityException {
         // check that the device has play services available.
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
-                getApplicationContext());
+            getApplicationContext());
         if (code != ConnectionResult.SUCCESS) {
             Dialog dlg =
-                    GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS);
+                GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS);
             dlg.show();
         }
 
@@ -424,13 +417,11 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 Log.d(TAG, "text data is being spoken! " + text);
                 // Speak the string.
                 tts.speak(text, TextToSpeech.QUEUE_ADD, null, "DEFAULT");
-            }
-            else {
+            } else {
                 Log.d(TAG, "text data is null");
             }
-        }
-        else {
-            Log.d(TAG,"no text detected");
+        } else {
+            Log.d(TAG, "no text detected");
         }
         return text != null;
     }

@@ -87,4 +87,6 @@
     <string name="logout">Logout</string>
     <string name="my_dashboard">My Dashboard</string>
     <string name="hash">Flash</string>
+    <string name="skip">Skip/Next</string>
+    <string name="capture_upload">Capture &amp; Upload</string>
 </resources>

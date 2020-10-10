@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +9,8 @@
     <com.ipssi.ocr.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"
-        android:layout_height="590dp">
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_skip">
 
         <com.ipssi.ocr.camera.GraphicOverlay
             android:id="@+id/graphicOverlay"
@@ -19,15 +19,23 @@
 
     </com.ipssi.ocr.camera.CameraSourcePreview>
 
+    <CheckBox
+        android:id="@+id/flash_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:checked="false"
+        android:button="@drawable/flash_selector" />
+
     <Button
-        android:id="@+id/_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_skip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show Values" />
-  <!--  <Button
-        android:id="@+id/_button_flash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Flash ON/OFF" />-->
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/button_bg"
+        android:text="@string/skip"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

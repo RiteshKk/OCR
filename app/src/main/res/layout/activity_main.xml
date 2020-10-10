@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -9,8 +10,8 @@
         tools:context=".MainActivity">
 
         <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
             android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,144 +28,205 @@
                 android:textStyle="bold" />
         </android.support.v7.widget.Toolbar>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/btn_pre_load"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="10dp"
-            app:cardBackgroundColor="@android:color/white"
-            app:contentPadding="10dp"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.09"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.36">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="105dp"
-                    android:src="@drawable/pre_load" />
-
-                <TextView
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_pre_load"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/pre_load"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:contentPadding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btn_after_load"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.3">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/btn_after_load"
-            app:cardBackgroundColor="@android:color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="10dp"
-            app:contentPadding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_pre_load"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.36">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="125dp"
+                            android:layout_height="105dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/pre_load" />
 
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="105dp"
-                    android:src="@drawable/after_load" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/pre_load"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_after_load"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/after_load"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:contentPadding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btn_pre_load"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.3">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/btn_after_unload"
-            app:cardBackgroundColor="@android:color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="10dp"
-            app:contentPadding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.09"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_pre_load"
-            app:layout_constraintVertical_bias="0.15">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="125dp"
+                            android:layout_height="105dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/after_load" />
 
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="105dp"
-                    android:src="@drawable/after_unload" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/after_load"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_after_unload"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/after_unload"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginEnd="5dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:contentPadding="10dp"
+                    app:layout_constraintEnd_toStartOf="@id/btn_report"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_pre_load"
+                    app:layout_constraintVertical_bias="0.15">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/btn_report"
-            app:cardBackgroundColor="@android:color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="10dp"
-            app:contentPadding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_after_unload"
-            app:layout_constraintTop_toBottomOf="@+id/btn_after_load"
-            app:layout_constraintVertical_bias="0.15">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="125dp"
+                            android:layout_height="105dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/after_unload" />
 
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="105dp"
-                    android:src="@drawable/reports" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/after_unload"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_report"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/report"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginEnd="10dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:contentPadding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btn_after_unload"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_after_load">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="125dp"
+                            android:layout_height="105dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/reports" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/report"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_capture_unload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="10dp"
+                    app:contentPadding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_after_unload">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="125dp"
+                            android:layout_height="105dp"
+                            android:layout_gravity="center_horizontal"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/upload_image" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/capture_upload"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
     </android.support.constraint.ConstraintLayout>
 </layout>

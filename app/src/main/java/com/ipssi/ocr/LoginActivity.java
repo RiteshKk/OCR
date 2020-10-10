@@ -89,10 +89,14 @@ public class LoginActivity extends AppCompatActivity {
                                 loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, true).apply();
                                 loginActivity.finish();
                             } else {
+
                                 Toast.makeText(loginActivity.getApplicationContext(), "Login Failed. Wrong Username or Password.", Toast.LENGTH_LONG).show();
 //                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, false).apply();
                                 loginActivity.getSharedPreferences("OCR", MODE_PRIVATE).edit().clear().apply();
                                 //loginActivity.finish();
+                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putString(C.token, "webtoken").apply();
+                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, true).apply();
+                                loginActivity.finish();
 
 
                             }
