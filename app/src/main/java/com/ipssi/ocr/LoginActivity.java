@@ -1,13 +1,9 @@
 package com.ipssi.ocr;
 
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-
-import android.support.design.widget.TextInputLayout;
-
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -33,21 +29,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
-        if (preferences.getBoolean(C.IsLoggedIn, false)) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
         setContentView(R.layout.activity_login);
 
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, true).apply();
-//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                finish();
                 try {
                     login(LoginActivity.this, v);
                 } catch (JSONException e) {
@@ -65,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         TextInputLayout pInputLayout = loginActivity.findViewById(R.id.layout_password);
         Editable password = pInputLayout.getEditText().getText();
 
-        /*TextInputEditText user = (TextInputEditText) findViewById(R.id.layout_username);
-        TextInputEditText password = (TextInputEditText) findViewById(R.id.layout_password);*/
         JSONObject dataObj = new JSONObject();
         dataObj.put("user", user.toString());
         dataObj.put("pass", password.toString());
@@ -89,16 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                                 loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, true).apply();
                                 loginActivity.finish();
                             } else {
-
                                 Toast.makeText(loginActivity.getApplicationContext(), "Login Failed. Wrong Username or Password.", Toast.LENGTH_LONG).show();
-//                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, false).apply();
                                 loginActivity.getSharedPreferences("OCR", MODE_PRIVATE).edit().clear().apply();
-                                //loginActivity.finish();
-                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putString(C.token, "webtoken").apply();
-                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, true).apply();
-                                loginActivity.finish();
-
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

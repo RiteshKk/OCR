@@ -17,6 +17,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+        if (!preferences.getBoolean(C.IsLoggedIn, false)) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
         setSupportActionBar(binding.toolbar);
         binding.btnPreLoad.setOnClickListener(this);
         binding.btnAfterLoad.setOnClickListener(this);
