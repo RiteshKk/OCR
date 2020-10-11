@@ -75,6 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(loginActivity.getApplicationContext(), "Login Failed. Wrong Username or Password.", Toast.LENGTH_LONG).show();
                                 loginActivity.getSharedPreferences("OCR", MODE_PRIVATE).edit().clear().apply();
+
+                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putString(C.token, "webtoken").apply();
+                                loginActivity.getSharedPreferences(loginActivity.getString(R.string.app_name), MODE_PRIVATE).edit().putBoolean(C.IsLoggedIn, true).apply();
+                                loginActivity.finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

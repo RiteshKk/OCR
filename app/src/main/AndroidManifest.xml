@@ -26,7 +26,8 @@
 
         <activity
             android:name=".CaptureImageActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:label="@string/capture_upload"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".LoginActivity"
@@ -34,7 +35,7 @@
 
         <activity
             android:name=".AfterUnloadActivity"
-            android:label="@string/after_unload"
+            android:label=""
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Reports"
